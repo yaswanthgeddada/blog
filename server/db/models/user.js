@@ -82,7 +82,7 @@ userSchema.methods.generateAuthToken = async function () {
 
 // find user by email and password
 userSchema.statics.findByCredentials = async (email, password) => {
-  const user = await user.findOne({ email });
+  const user = await User.findOne({ email });
   if (!user) throw new Error("account doesn't exist");
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("invalid credentials");
@@ -98,7 +98,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Delete user entry when a user is removed.
+// Delete user post when a user is removed.
 userSchema.pre("remove", async function (next) {
   const user = this;
   await Post.deleteMany({
@@ -108,4 +108,5 @@ userSchema.pre("remove", async function (next) {
 });
 
 const User = mongoose.model("User", userSchema);
+
 module.exports = User;

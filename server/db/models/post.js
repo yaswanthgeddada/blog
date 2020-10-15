@@ -1,5 +1,6 @@
 const mongoose = require("mongoose"),
   Comment = require("./comment"),
+  // moment = require("moment"),
   User = require("./user");
 
 const postSchema = new mongoose.Schema(
@@ -23,6 +24,15 @@ const postSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// postSchema.methods.toJSON = function () {
+//   const post = this;
+//   const postObject = post.toObject();
+//   if (postObject.createdAt) {
+//     postObject.createdAt = moment(postObject.createdAt).format("YYYY-MM-DD");
+//   }
+//   return postObject;
+// };
 
 const Post = mongoose.model("Post", postSchema);
 module.exports = Post;
