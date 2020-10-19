@@ -26,23 +26,23 @@ Add .env file with a MongoDB URL to connect to your database, and a JWT secret f
 
 ### Dependencies
 
-App uses on the front end:
+Front-end:
 
-- axios
-- bootstrap & react-bootstrap
-- moment
 - sweetalert
 - react-dom
 - react-router-dom
+- axios
+- bootstrap & react-bootstrap
+- moment
 
-App uses on the back end:
+Back-end:
 
+- jsonwebtoken
+- mongodb & mongoose
+- nodemon
+- passport & passport-jwt
 - bcryptjs
 - concurrently
 - cookie-parser
 - dotenv
 - express
-- jsonwebtoken
-- mongodb & mongoose
-- nodemon
-- passport & passport-jwt
