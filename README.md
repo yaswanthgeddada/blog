@@ -1,4 +1,4 @@
-# Blog Challenge
+# MERN Blog
 
 # Requirements
 
