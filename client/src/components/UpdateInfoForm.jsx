@@ -50,7 +50,7 @@ const UpdateInfoForm = () => {
     <div>
       <Container>
         <Form className="account-form" onSubmit={handleSubmit}>
-          <Form.Group controlId="profileContainer">
+          <Form.Group controlid="profileContainer">
             <Form.Label>Username</Form.Label>
             <Form.Control
               onChange={(e) =>

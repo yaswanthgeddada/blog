@@ -7,7 +7,6 @@ import axios from "axios";
 
 const Blogs = () => {
   const [posts, setPosts] = useState();
-  const [users, setUsers] = useState();
 
   useEffect(() => {
     axios
