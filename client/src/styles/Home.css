@@ -1,0 +1,16 @@
+body {
+  background-color: #efefe7;
+}
+
+#content {
+  display: flex;
+  justify-content: center;
+  transform: 100px;
+
+  width: max-content;
+  position: fixed;
+  top: 30%;
+  left: 35%;
+
+  /* transform: rotate(20deg); */
+}

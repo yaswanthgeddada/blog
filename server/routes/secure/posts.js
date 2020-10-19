@@ -6,14 +6,20 @@ const router = require("express").Router(),
 router.post("/api/posts", async (req, res) => {
   const { title, content } = req.body;
   try {
-    const newPost = new Post({ title, content, user: req.user._id });
+    const newPost = new Post({
+      title,
+      content,
+      username: req.user.username,
+      user: req.user._id,
+    });
     await newPost.save();
     const user = await User.findById(newPost.user);
     user.posts.push(newPost._id);
     await user.save();
     res.status(201).json(newPost);
-  } catch (err) {
-    res.status(500).json({ err: err.toString() });
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+    console.log(error);
   }
 });
 
@@ -42,11 +48,12 @@ router.patch("/api/posts/:id", async (req, res) => {
 router.delete("/api/posts/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    await User.findByIdAndUpdate(req.user._id, {
+    const user = await User.findByIdAndUpdate(req.user._id, {
       $pull: { posts: { $in: [req.params.id] } },
     });
     post.remove();
-    res.json({ Post: "Post deleted" });
+    const posts = await Post.find({ _id: { $in: user.posts } });
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }

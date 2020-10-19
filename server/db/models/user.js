@@ -1,9 +1,8 @@
 const mongoose = require("mongoose"),
   validator = require("validator"),
   jwt = require("jsonwebtoken"),
-  bcrypt = require("bcryptjs"),
-  Post = require("./post");
-
+  bcrypt = require("bcryptjs");
+//   Post = require("./post");
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -29,10 +28,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
       validate(value) {
         if (value.toLowerCase().includes("password")) {
-          throw new Error("can't be password.");
+          throw new Error("Password can't be password.");
         }
         if (value.length < 6) {
-          throw new Error("password must be at least 6 characters long.");
+          throw new Error("Password must be at least 6 characters long.");
         }
       },
     },
@@ -57,7 +56,6 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 // hide password & tokens for security
 userSchema.methods.toJSON = function () {
   const user = this;
@@ -66,7 +64,6 @@ userSchema.methods.toJSON = function () {
   delete userObject.tokens;
   return userObject;
 };
-
 // generate jwt token
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
@@ -79,7 +76,6 @@ userSchema.methods.generateAuthToken = async function () {
   await user.save();
   return token;
 };
-
 // find user by email and password
 userSchema.statics.findByCredentials = async (email, password) => {
   const user = await User.findOne({ email });
@@ -88,8 +84,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
   if (!isMatch) throw new Error("invalid credentials");
   return user;
 };
-
-// encrypt passwords
+// // encrypt password
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
@@ -97,16 +92,13 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
-
-// Delete user post when a user is removed.
-userSchema.pre("remove", async function (next) {
-  const user = this;
-  await Post.deleteMany({
-    owner: user._id,
-  });
-  next();
-});
-
+// // Delete user post when a user is removed.
+// userSchema.pre("remove", async function (next) {
+//   const user = this;
+//   await Post.deleteMany({
+//     owner: user._id,
+//   });
+//   next();
+// });
 const User = mongoose.model("User", userSchema);
-
 module.exports = User;

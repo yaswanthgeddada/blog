@@ -4,18 +4,45 @@ const router = require("express").Router(),
   Post = require("../../db/models/post"),
   User = require("../../db/models/user");
 
-// ***********************************************//
-// Create a user
-// ***********************************************//
+// GET USERS
+router.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    if (!users) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(users);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
+//GET USER BY ID
+router.get("/api/users/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
+// CREATE NEW User
 router.post("/api/users/", async (req, res) => {
   const { username, email, password } = req.body;
+  let user = await User.findOne({ email });
+  if (user) res.status(409).send("that email has already been used");
   try {
-    const user = new User({
+    user = new User({
       username,
       email,
       password,
     });
-
     const token = await user.generateAuthToken();
     res.cookie("jwt", token, {
       httpOnly: true,
@@ -23,8 +50,8 @@ router.post("/api/users/", async (req, res) => {
       secure: process.env.NODE_ENV !== "production" ? false : true,
     });
     res.status(201).json(user);
-  } catch (e) {
-    res.status(400).json({ error: e.toString() });
+  } catch (error) {
+    res.status(401).json({ error: error.toString() });
   }
 });
 
@@ -75,7 +102,7 @@ router.get("/api/posts/:id", async (req, res) => {
   }
 });
 
-// GET POSTS BY AUTHOR ID
+// GET POSTS BY User ID
 router.get("/api/users/:id/posts", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -109,16 +136,19 @@ router.get("/api/posts/:id/comments", async (req, res) => {
 router.post("/api/posts/:id/comments", async (req, res) => {
   const { text } = req.body;
   const name = req.body.name || "anonymous";
+
   try {
     const newComment = new Comment({
       name,
       text,
       post: req.params.id,
     });
+
     await newComment.save();
     const post = await Post.findById(newComment.post);
-    post.comments.push(newComment._id);
+    post.comments.push(newComment);
     await post.save();
+
     res.status(201).json(newComment);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
