@@ -5,11 +5,9 @@ import Content from "../components/Content";
 
 const Home = () => {
   return (
-    <>
-      <body className="jb">
-        <Content />
-      </body>
-    </>
+    <div className="jb">
+      <Content />
+    </div>
   );
 };
 

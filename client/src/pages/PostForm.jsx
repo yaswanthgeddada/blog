@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import { AppContext } from "../context/AppContext";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import AccountHeader from "../components/AccountHeader";
 import swal from "sweetalert";
@@ -8,7 +7,7 @@ import { Row, Col, Form, Button, Container } from "react-bootstrap";
 import axios from "axios";
 const PostForm = ({ match, history }) => {
   const { id } = match.params;
-  const { currentUser } = useContext(AppContext);
+
   const [postData, setPostData] = useState();
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const PostForm = ({ match, history }) => {
     } else {
       setPostData(null);
     }
-  }, []);
+  }, [id]);
 
   const createPost = () => {
     axios
@@ -104,7 +103,8 @@ const PostForm = ({ match, history }) => {
                   }
                   defaultValue={id ? postData?.content : ""}
                   as="textarea"
-                  id="fullsendContent"
+                  // id="fullsendContent"
+                  controlid="fullsendContent"
                   rows="8"
                   placeholder="FullSend..."
                   name="content"
