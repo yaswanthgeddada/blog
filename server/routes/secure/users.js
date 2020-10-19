@@ -1,20 +1,16 @@
 const router = require("express").Router();
 
-// Get current User
-router.get("/api/users/me", async (req, res) => res.json(req.user));
+// ***********************************************//
+// Get current user
+// **********************************************//
+router.get("/api/user/me", async (req, res) => res.json(req.user));
 
 // ***********************************************//
 // Update a user
-// ***********************************************//
+// **********************************************//
 router.patch("/api/users/me", async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = [
-    "username",
-    "email",
-    "password",
-    "blogTitle",
-    "blogDescription",
-  ];
+  const allowedUpdates = ["username", "email", "password"];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
@@ -28,8 +24,9 @@ router.patch("/api/users/me", async (req, res) => {
     res.status(400).json({ error: e.toString() });
   }
 });
-
+// ***********************************************//
 // Delete current user
+// ***********************************************//
 router.delete("/api/users/me", async (req, res) => {
   try {
     req.user.tokens = [];
@@ -40,8 +37,9 @@ router.delete("/api/users/me", async (req, res) => {
     res.status(500).json({ err: err.toString() });
   }
 });
-
+// ***********************************************//
 // Logout current user
+// ***********************************************//
 router.post("/api/users/logout", async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
@@ -54,8 +52,9 @@ router.post("/api/users/logout", async (req, res) => {
     res.status(500).json({ error: error.toString() });
   }
 });
-
+// ***********************************************//
 // Logout current user on all devices (clear all tokens)
+// ***********************************************//
 router.post("/api/users/logoutAll", async (req, res) => {
   try {
     req.user.tokens = [];
@@ -66,10 +65,9 @@ router.post("/api/users/logoutAll", async (req, res) => {
     res.status(500).json({ error: error.toString() });
   }
 });
-
-// ******************************
-// Update password
-// ******************************
+// ***********************************************//
+// Update a password
+// ***********************************************//
 router.put("/api/password", async (req, res) => {
   try {
     req.user.password = req.body.password;
@@ -80,5 +78,4 @@ router.put("/api/password", async (req, res) => {
     res.json({ error: e.toString() });
   }
 });
-
 module.exports = router;

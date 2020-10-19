@@ -1,6 +1,5 @@
 const mongoose = require("mongoose"),
   Comment = require("./comment"),
-  // moment = require("moment"),
   User = require("./user");
 
 const postSchema = new mongoose.Schema(
@@ -18,7 +17,18 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    username: {
+      type: String,
+    },
+    comments: [
+      {
+        type: Object,
+        postedBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Comment",
+        },
+      },
+    ],
   },
   {
     timestamps: true,
