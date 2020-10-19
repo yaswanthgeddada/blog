@@ -1,6 +1,6 @@
 # Blog Challenge
 
-# MERN TA assessment
+# Requirements
 
 - [x] As a writer, I'd like to be able to login into the system so I can have access to my blog posts.
 - [x] As a writer, I'd like to be able to logout of the system so other people won't have access to my blog posts using a public terminal.
