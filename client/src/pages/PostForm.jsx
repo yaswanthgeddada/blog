@@ -88,6 +88,7 @@ const PostForm = ({ match, history }) => {
                       [e.target.name]: e.target.value,
                     })
                   }
+                  autoComplete="off"
                   defaultValue={id && postData?.title}
                   type="text"
                   placeholder="Title"
