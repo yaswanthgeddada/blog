@@ -34,7 +34,7 @@ const Blogs = () => {
                     key={post._id}
                     className="mt-5 mx-5"
                     bg="dark"
-                    style={{ width: "300px" }}
+                    style={{ width: "300px", borderRadius: "20px" }}
                   >
                     <Card.Header className="text-center">
                       <Card.Title
@@ -69,6 +69,7 @@ const Blogs = () => {
                       as={Link}
                       to={`/post/${post._id}`}
                       variant="primary"
+                      style={{borderRadius: "20px" }}
                     >
                       Comment
                     </Button>
