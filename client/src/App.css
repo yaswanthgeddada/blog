@@ -67,10 +67,3 @@
 .myBlogs {
   margin-top: 80px;
 }
-
-#content {
-  display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  position: absolute;
-}
